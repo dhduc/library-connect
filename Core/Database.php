@@ -37,6 +37,8 @@ class Database
             mysqli_query($this->conn, "set names 'utf8'");
             date_default_timezone_set("Asia/Ho_Chi_Minh");
             echo 'Connect Successful!';
+
+            return true;
         }
     }
 
