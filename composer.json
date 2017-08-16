@@ -1,0 +1,16 @@
+{
+    "name": "root/library_connect",
+    "authors": [
+        {
+            "name": "Duc Dao",
+            "email": "ducdh1@smartosc.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^2.4"
+    },
+    "scripts": {
+        "start": "php -S localhost:8000",
+        "stop": "fuser -n tcp -k 8000"
+    }
+}

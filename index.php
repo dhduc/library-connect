@@ -1,10 +1,11 @@
 <?php
-session_start();  
+session_start();
+
+require __DIR__ . '/vendor/autoload.php';
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+
 require 'config.php';
-function __autoload($class){
-	if(file_exists('core/'.$class.'.php')) {
-		require 'core/'.$class.'.php';
-	}
-}
-	$core = new Database();
+require 'core/Database.php';
+$core = new Core\Database();
 ?>

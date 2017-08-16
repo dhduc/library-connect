@@ -1,7 +1,7 @@
 <?php  
-	define('DB_TYPE', 'mysql');
-	define('DB_HOST', 'localhost');
-	define('DB_NAME', 'note');
-	define('DB_USER', 'root');
-	define('DB_PASS', 'root');
+	define('DB_TYPE', getenv('DB_TYPE'));
+	define('DB_HOST', getenv('DB_HOST'));
+	define('DB_NAME', getenv('DB_NAME'));
+	define('DB_USER', getenv('DB_USER'));
+	define('DB_PASS', getenv('DB_PASS'));
 ?>
