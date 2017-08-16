@@ -1,5 +1,6 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
+
+namespace Core;
 
 /**
  * Class Database
@@ -7,7 +8,7 @@ header('Content-Type: text/html; charset=utf-8');
 class Database
 {
     /**
-     * @var mysqli
+     * @var \mysqli
      */
     private $__conn;
 
@@ -24,7 +25,7 @@ class Database
     /**
      * @var string
      */
-    protected $_msg = '';
+    protected $_msg = 'successful';
 
     /**
      * Database constructor.
@@ -32,10 +33,10 @@ class Database
     function __construct()
     {
         if (!$this->__conn) {
-            $this->__conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die ('Lỗi kết nối');
+            $this->__conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die ('Connect Failed!');
             mysqli_query($this->__conn, "set names 'utf8'");
             date_default_timezone_set("Asia/Ho_Chi_Minh");
-            echo 'Connect Successful';
+            echo 'Connect Successful!';
         }
     }
 
@@ -51,7 +52,7 @@ class Database
 
     /**
      * @param $sql
-     * @return bool|mysqli_result
+     * @return bool|\mysqli_result
      */
     function query($sql)
     {
@@ -60,13 +61,12 @@ class Database
 
     /**
      * @param $data
-     * @return bool|mysqli_result
+     * @return bool|\mysqli_result
      */
     function insert($data)
     {
         $table = $this->_table;
         $model = $this->_model;
-        $msg = $this->_msg;
         $field_list = '';
         $value_list = '';
         foreach ($data as $key => $value) {
@@ -77,9 +77,9 @@ class Database
         $result = mysqli_query($this->__conn, $sql);
         if (!$result) {
             echo $sql . "<br>";
-            die ('Câu truy vấn bị sai: function insert()');
+            die ('Query failed: function insert()');
         } else {
-            echo 'Insert to '.$model.' '.$msg;
+            echo 'Insert to '.$model.' '.$this->_msg;
         }
 
         return $result;
@@ -88,7 +88,7 @@ class Database
     /**
      * @param $data
      * @param $where
-     * @return bool|mysqli_result
+     * @return bool|\mysqli_result
      */
     function update($data, $where)
     {
@@ -102,9 +102,9 @@ class Database
         $result = mysqli_query($this->__conn, $sql);
         if (!$result) {
             echo $sql . "<br>";
-            die ('Câu truy vấn bị sai: function update()');
+            die ('Query failed: function update()');
         } else {
-            echo 'Update to '.$model.' successful';
+            echo 'Update to '.$model.' '.$this->_msg;
         }
 
         return $result;
@@ -112,7 +112,7 @@ class Database
 
     /**
      * @param $where
-     * @return bool|mysqli_result
+     * @return bool|\mysqli_result
      */
     function remove($where)
     {
@@ -123,16 +123,16 @@ class Database
 
         if (!$result) {
             echo $sql . "<br>";
-            die ('Câu truy vấn bị sai: function remove()');
+            die ('Query failed: function remove()');
         } else {
-            echo 'Remove record in '.$model.' successful';
+            echo 'Remove record in '.$model.' '.$this->_msg;
         }
 
         return $result;
     }
 
     /**
-     * @return bool|mysqli_result
+     * @return bool|\mysqli_result
      */
     function delete_all()
     {
@@ -143,9 +143,9 @@ class Database
 
         if (!$result) {
             echo $sql . "<br>";
-            die ('Câu truy vấn bị sai: function delete_all()');
+            die ('Query failed: function delete_all()');
         } else {
-            echo 'Delete al record of '.$model.' successful';
+            echo 'Delete al record of '.$model.' '.$this->_msg;
         }
 
         return $result;
@@ -160,7 +160,7 @@ class Database
         $result = mysqli_query($this->__conn, $sql);
         if (!$result) {
             echo $sql . "<br>";
-            die ('Câu truy vấn bị sai: function get_list()');
+            die ('Query failed: function get_list()');
         }
         $return = array();
         while ($row = mysqli_fetch_assoc($result)) {
@@ -179,7 +179,7 @@ class Database
         $result = mysqli_query($this->__conn, $sql);
         if (!$result) {
             echo $sql . "<br>";
-            die ('Câu truy vấn bị sai: function get_row()');
+            die ('Query failed: function get_row()');
         }
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);

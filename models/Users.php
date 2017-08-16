@@ -1,5 +1,13 @@
 <?php
 
+namespace Models;
+
+use Core\Database;
+
+/**
+ * Class Users
+ * @package Models
+ */
 class Users extends Database
 {
     /**
@@ -11,9 +19,4 @@ class Users extends Database
      * @var string
      */
     protected $_model = 'Users';
-
-    /**
-     * @var string
-     */
-    protected $_msg = 'is ok';
 }
