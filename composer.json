@@ -19,6 +19,7 @@
     },
     "scripts": {
         "start": "php -S localhost:8000",
-        "stop": "fuser -n tcp -k 8000"
+        "stop": "fuser -n tcp -k 8000",
+        "phpcs": "vendor/bin/phpcs"
     }
 }

@@ -13,10 +13,10 @@ class Users extends Database
     /**
      * @var
      */
-    protected $_table = 'users';
+    protected $table = 'users';
 
     /**
      * @var string
      */
-    protected $_model = 'Users';
+    protected $model = 'Users';
 }

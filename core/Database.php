@@ -10,31 +10,31 @@ class Database
     /**
      * @var \mysqli
      */
-    private $__conn;
+    private $conn;
 
     /**
      * @var
      */
-    protected $_table;
+    protected $table;
 
     /**
      * @var string
      */
-    protected $_model = '';
+    protected $model = '';
 
     /**
      * @var string
      */
-    protected $_msg = 'successful';
+    protected $msg = 'successful';
 
     /**
      * Database constructor.
      */
-    function __construct()
+    public function __construct()
     {
-        if (!$this->__conn) {
-            $this->__conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die ('Connect Failed!');
-            mysqli_query($this->__conn, "set names 'utf8'");
+        if (!$this->conn) {
+            $this->conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die('Connect Failed!');
+            mysqli_query($this->conn, "set names 'utf8'");
             date_default_timezone_set("Asia/Ho_Chi_Minh");
             echo 'Connect Successful!';
         }
@@ -43,10 +43,10 @@ class Database
     /**
      * __destruct
      */
-    function __destruct()
+    public function __destruct()
     {
-        if ($this->__conn) {
-            mysqli_close($this->__conn);
+        if ($this->conn) {
+            mysqli_close($this->conn);
         }
     }
 
@@ -54,19 +54,19 @@ class Database
      * @param $sql
      * @return bool|\mysqli_result
      */
-    function query($sql)
+    public function query($sql)
     {
-        return mysqli_query($this->__conn, $sql);
+        return mysqli_query($this->conn, $sql);
     }
 
     /**
      * @param $data
      * @return bool|\mysqli_result
      */
-    function insert($data)
+    public function insert($data)
     {
-        $table = $this->_table;
-        $model = $this->_model;
+        $table = $this->table;
+        $model = $this->model;
         $field_list = '';
         $value_list = '';
         foreach ($data as $key => $value) {
@@ -74,12 +74,12 @@ class Database
             $value_list .= ",'" . mysql_escape_string($value) . "'";
         }
         $sql = 'INSERT INTO ' . $table . '(' . trim($field_list, ',') . ') VALUES (' . trim($value_list, ',') . ')';
-        $result = mysqli_query($this->__conn, $sql);
+        $result = mysqli_query($this->conn, $sql);
         if (!$result) {
             echo $sql . "<br>";
-            die ('Query failed: function insert()');
+            die('Query failed: function insert()');
         } else {
-            echo 'Insert to '.$model.' '.$this->_msg;
+            echo 'Insert to '.$model.' '.$this->msg;
         }
 
         return $result;
@@ -90,21 +90,21 @@ class Database
      * @param $where
      * @return bool|\mysqli_result
      */
-    function update($data, $where)
+    public function update($data, $where)
     {
         $sql = '';
-        $model = $this->_model;
-        $table = $this->_table;
+        $model = $this->model;
+        $table = $this->table;
         foreach ($data as $key => $value) {
             $sql .= "$key = '" . mysql_escape_string($value) . "',";
         }
         $sql = 'UPDATE ' . $table . ' SET ' . trim($sql, ',') . ' WHERE ' . $where;
-        $result = mysqli_query($this->__conn, $sql);
+        $result = mysqli_query($this->conn, $sql);
         if (!$result) {
             echo $sql . "<br>";
-            die ('Query failed: function update()');
+            die('Query failed: function update()');
         } else {
-            echo 'Update to '.$model.' '.$this->_msg;
+            echo 'Update to '.$model.' '.$this->msg;
         }
 
         return $result;
@@ -114,18 +114,18 @@ class Database
      * @param $where
      * @return bool|\mysqli_result
      */
-    function remove($where)
+    public function remove($where)
     {
-        $table = $this->_table;
-        $model = $this->_model;
+        $table = $this->table;
+        $model = $this->model;
         $sql = "DELETE FROM $table WHERE $where";
-        $result = mysqli_query($this->__conn, $sql);
+        $result = mysqli_query($this->conn, $sql);
 
         if (!$result) {
             echo $sql . "<br>";
-            die ('Query failed: function remove()');
+            die('Query failed: function remove()');
         } else {
-            echo 'Remove record in '.$model.' '.$this->_msg;
+            echo 'Remove record in '.$model.' '.$this->msg;
         }
 
         return $result;
@@ -134,18 +134,18 @@ class Database
     /**
      * @return bool|\mysqli_result
      */
-    function delete_all()
+    public function deleteAll()
     {
-        $table = $this->_table;
-        $model = $this->_model;
+        $table = $this->table;
+        $model = $this->model;
         $sql = "DELETE FROM $table";
-        $result = mysqli_query($this->__conn, $sql);
+        $result = mysqli_query($this->conn, $sql);
 
         if (!$result) {
             echo $sql . "<br>";
-            die ('Query failed: function delete_all()');
+            die('Query failed: function delete_all()');
         } else {
-            echo 'Delete al record of '.$model.' '.$this->_msg;
+            echo 'Delete al record of '.$model.' '.$this->msg;
         }
 
         return $result;
@@ -155,14 +155,14 @@ class Database
      * @param $sql
      * @return array
      */
-    function get_list($sql)
+    public function getList($sql)
     {
-        $result = mysqli_query($this->__conn, $sql);
+        $result = mysqli_query($this->conn, $sql);
         if (!$result) {
             echo $sql . "<br>";
-            die ('Query failed: function get_list()');
+            die('Query failed: function get_list()');
         }
-        $return = array();
+        $return = [];
         while ($row = mysqli_fetch_assoc($result)) {
             $return[] = $row;
         }
@@ -174,12 +174,12 @@ class Database
      * @param $sql
      * @return array|bool|null
      */
-    function get_row($sql)
+    public function getRow($sql)
     {
-        $result = mysqli_query($this->__conn, $sql);
+        $result = mysqli_query($this->conn, $sql);
         if (!$result) {
             echo $sql . "<br>";
-            die ('Query failed: function get_row()');
+            die('Query failed: function get_row()');
         }
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
@@ -188,7 +188,4 @@ class Database
         }
         return false;
     }
-
 }
-
-?>
