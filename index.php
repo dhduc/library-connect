@@ -6,6 +6,6 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
 require 'config.php';
-require 'core/Database.php';
+require 'Core/Database.php';
 $core = new Core\Database();
 ?>
